@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biodata — Chico Endar Adikara | Team Core 2026</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background: #030712; }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    .glass {
+      background: rgba(15,23,42,0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(148,163,184,0.08);
+    }
+
+    .avatar-ring {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6, #06b6d4);
+      padding: 4px;
+      border-radius: 9999px;
+      box-shadow: 0 0 40px rgba(244,63,94,0.15), 0 0 80px rgba(139,92,246,0.08);
+    }
+
+    .pulse-dot {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    }
+
+    .top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #f43f5e, #8b5cf6, #0ea5e9);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #f43f5e, #a78bfa, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bio-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.125rem 0;
+      border-bottom: 1px solid rgba(148,163,184,0.06);
+    }
+    .bio-row:last-child { border-bottom: none; }
+
+    .bio-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #64748b;
+      min-width: 110px;
+      padding-top: 3px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .bio-value {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(244,63,94,0.06);
+      color: #fb7185;
+      border: 1px solid rgba(244,63,94,0.1);
+      transition: all 0.2s ease;
+    }
+    .skill-tag:hover {
+      background: rgba(244,63,94,0.12);
+      border-color: rgba(244,63,94,0.25);
+      transform: translateY(-1px);
+    }
+
+    .stat-card {
+      background: rgba(15,23,42,0.4);
+      border: 1px solid rgba(148,163,184,0.06);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      border-color: rgba(244,63,94,0.15);
+      box-shadow: 0 0 20px -5px rgba(244,63,94,0.08);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 1.5rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: rgba(148,163,184,0.1);
+    }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #030712;
+      border: 2px solid #f43f5e;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .fd1 { animation-delay: 0.1s; }
+    .fd2 { animation-delay: 0.25s; }
+    .fd3 { animation-delay: 0.4s; }
+    .fd4 { animation-delay: 0.55s; }
+    .fd5 { animation-delay: 0.7s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+
+<body class="text-slate-50 font-sans antialiased overflow-x-hidden">
+
+  <canvas id="particleCanvas"></canvas>
+  <div class="fixed inset-0 grid-bg z-0 pointer-events-none"></div>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 text-slate-400 hover:text-rose-400 transition-colors text-sm font-medium group">
+        <iconify-icon icon="lucide:arrow-left" width="16" class="group-hover:-translate-x-0.5 transition-transform"></iconify-icon>
+        Kembali ke Tim
+      </a>
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-rose-500 to-violet-600 flex items-center justify-center">
+          <iconify-icon icon="lucide:terminal" width="13" class="text-white"></iconify-icon>
+        </div>
+        <span class="font-semibold text-xs tracking-wide text-slate-300">TEAM<span class="text-rose-400">.CORE</span></span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main class="relative z-10 px-4 py-24 md:py-32">
+    <div class="max-w-5xl mx-auto space-y-8">
+
+      <!-- ===== HERO CARD ===== -->
+      <div class="glass rounded-2xl overflow-hidden fade-up">
+        <div class="top-bar"></div>
+        <div class="flex flex-col lg:flex-row">
+
+          <!-- LEFT — Identity -->
+          <div class="lg:w-[38%] p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-rose-500/[0.05] via-violet-500/[0.02] to-sky-500/[0.03] relative overflow-hidden">
+
+            <!-- Decorative number -->
+            <div class="absolute -top-12 -right-4 text-[11rem] font-extrabold text-rose-500/[0.05] leading-none font-mono pointer-events-none select-none">06</div>
+
+            <!-- Avatar -->
+            <div class="avatar-ring mb-6 fade-up fd1">
+              <div class="w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden bg-gray-900">
+                <img
+                  src="https://picsum.photos/seed/dev-chico/400/400.jpg"
+                  alt="Chico Endar Adikara"
+                  class="w-full h-full object-cover"
+                  onerror="this.src='https://ui-avatars.com/api/?name=C+E&background=0f172a&color=fb7185&size=400&bold=true&font-size=0.35'"
+                >
+              </div>
+            </div>
+
+            <!-- Name -->
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-100 tracking-tight fade-up fd2">
+              CHICO ENDAR ADIKARA
+            </h1>
+
+            <!-- Role badge -->
+            <div class="mt-3 fade-up fd3">
+              <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold tracking-wide">
+                <iconify-icon icon="lucide:code-2" width="14"></iconify-icon>
+                DEVELOPER
+              </span>
+            </div>
+
+            <!-- Status -->
+            <div class="flex items-center gap-2.5 mt-6 fade-up fd4">
+              <span class="w-2.5 h-2.5 rounded-full bg-green-500 pulse-dot"></span>
+              <span class="text-xs text-slate-500 font-mono tracking-wide">online</span>
+            </div>
+
+            <!-- Quick contact -->
+            <div class="flex items-center gap-3 mt-6 fade-up fd5">
+              <a href="tel:+6287821303377" class="w-10 h-10 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/15 hover:border-rose-500/30 flex items-center justify-center transition-all duration-200 group">
+                <iconify-icon icon="lucide:phone" width="16" class="text-rose-400 group-hover:scale-110 transition-transform"></iconify-icon>
+              </a>
+              <a href="mailto:chico@teamcore.dev" class="w-10 h-10 rounded-xl bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/15 hover:border-violet-500/30 flex items-center justify-center transition-all duration-200 group">
+                <iconify-icon icon="lucide:mail" width="16" class="text-violet-400 group-hover:scale-110 transition-transform"></iconify-icon>
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT — Biodata Table -->
+          <div class="lg:w-[62%] p-8 md:p-10 fade-up fd2">
+            <div class="flex items-center gap-2.5 mb-7">
+              <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center">
+                <iconify-icon icon="lucide:id-card" width="16" class="text-rose-400"></iconify-icon>
+              </div>
+              <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-400 font-mono block leading-none">Biodata Lengkap</span>
+                <span class="text-[10px] text-slate-600 font-mono mt-0.5 block">Member #06</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="bio-row">
+                <span class="bio-label">No. Urut</span>
+                <span class="bio-value">
+                  <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 font-mono font-bold text-sm">06</span>
+                </span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Nama Lengkap</span>
+                <span class="bio-value font-semibold text-slate-100 text-lg">Chico Endar Adikara</span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Jabatan</span>
+                <span class="bio-value">
+                  <span class="inline-flex items-center gap-1.5 text-rose-400 font-medium">
+                    <iconify-icon icon="lucide:code-2" width="13"></iconify-icon>
+                    Developer
+                  </span>
+                </span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Alamat</span>
+                <span class="bio-value">Jl. Permata Safira</span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Telepon</span>
+                <span class="bio-value">
+                  <a href="tel:+6287821303377" class="text-rose-400 hover:text-rose-300 transition-colors font-mono font-medium inline-flex items-center gap-2 group">
+                    087821303377
+                    <iconify-icon icon="lucide:arrow-up-right" width="13" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                  </a>
+                </span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Status</span>
+                <span class="bio-value inline-flex items-center gap-2.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-green-500 pulse-dot"></span>
+                  <span class="text-green-400 font-medium">Aktif</span>
+                </span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Tim</span>
+                <span class="bio-value">Team Core — Full Stack Developers 2026</span>
+              </div>
+              <div class="bio-row">
+                <span class="bio-label">Bergabung</span>
+                <span class="bio-value font-mono text-slate-300">2026</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== STATS ROW ===== -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-up fd3">
+        <div class="stat-card">
+          <div class="text-2xl font-extrabold gradient-text mb-1">06</div>
+          <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Member ID</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-2xl font-extrabold gradient-text mb-1">6</div>
+          <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Anggota Tim</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-2xl font-extrabold gradient-text mb-1">5+</div>
+          <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-2xl font-extrabold gradient-text mb-1 flex items-center justify-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+          </div>
+          <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Online</div>
+        </div>
+      </div>
+
+      <!-- ===== SKILLS & TIMELINE ===== -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Skills -->
+        <div class="glass rounded-2xl p-8 fade-up fd4">
+          <div class="flex items-center gap-2.5 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center">
+              <iconify-icon icon="lucide:zap" width="16" class="text-rose-400"></iconify-icon>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-400 font-mono">Keahlian</span>
+          </div>
+
+          <div class="flex flex-wrap gap-2.5">
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:layers" width="12"></iconify-icon>
+              Full-Stack Dev
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:diamond" width="12"></iconify-icon>
+              Vue.js
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:terminal" width="12"></iconify-icon>
+              Python
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:database" width="12"></iconify-icon>
+              PostgreSQL
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:server" width="12"></iconify-icon>
+              REST API
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:container" width="12"></iconify-icon>
+              Docker
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:git-branch" width="12"></iconify-icon>
+              Git Workflow
+            </span>
+            <span class="skill-tag">
+              <iconify-icon icon="lucide:test-tube" width="12"></iconify-icon>
+              Unit Testing
+            </span>
+          </div>
+
+          <!-- Skill bars -->
+          <div class="mt-8 space-y-4">
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-xs text-slate-400 font-medium">Full-Stack Development</span>
+                <span class="text-[10px] text-slate-500 font-mono">90%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-rose-500 to-violet-500" style="width:90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-xs text-slate-400 font-medium">Vue.js / Nuxt</span>
+                <span class="text-[10px] text-slate-500 font-mono">88%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-rose-500 to-sky-500" style="width:88%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-xs text-slate-400 font-medium">Python / Django</span>
+                <span class="text-[10px] text-slate-500 font-mono">85%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-rose-500" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1.5">
+                <span class="text-xs text-slate-400 font-medium">Database / PostgreSQL</span>
+                <span class="text-[10px] text-slate-500 font-mono">82%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-sky-500 to-rose-500" style="width:82%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="glass rounded-2xl p-8 fade-up fd5">
+          <div class="flex items-center gap-2.5 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center">
+              <iconify-icon icon="lucide:activity" width="16" class="text-rose-400"></iconify-icon>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-400 font-mono">Riwayat</span>
+          </div>
+
+          <div>
+            <div class="timeline-item">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-rose-400 font-mono">2026</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 font-mono font-semibold">NOW</span>
+              </div>
+              <p class="text-sm text-slate-300 font-medium">Full-Stack Developer — Team Core</p>
+              <p class="text-xs text-slate-500 mt-1">Mengembangkan front-end Vue.js dan back-end Python untuk solusi digital tim.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-slate-500 font-mono">2025</span>
+              </div>
+              <p class="text-sm text-slate-300 font-medium">Back-End Developer — Project Gamma</p>
+              <p class="text-xs text-slate-500 mt-1">Membangun REST API dengan Django dan mengelola database PostgreSQL.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-slate-500 font-mono">2024</span>
+              </div>
+              <p class="text-sm text-slate-300 font-medium">Web Developer</p>
+              <p class="text-xs text-slate-500 mt-1">Membangun aplikasi SPA dengan Vue.js dan mengintegrasikan API pihak ketiga.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-bold text-slate-500 font-mono">2023</span>
+              </div>
+              <p class="text-sm text-slate-300 font-medium">Junior Developer</p>
+              <p class="text-xs text-slate-500 mt-1">Memulai karir di bidang web development dengan Python dan JavaScript.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== CONTACT CARD ===== -->
+      <div class="glass rounded-2xl p-8 fade-up fd5">
+        <div class="flex items-center gap-2.5 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center">
+            <iconify-icon icon="lucide:phone" width="16" class="text-rose-400"></iconify-icon>
+          </div>
+          <span class="text-xs font-bold uppercase tracking-widest text-rose-400 font-mono">Hubungi Chico</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="tel:+6287821303377" class="flex items-center gap-4 p-4 rounded-xl bg-rose-500/[0.04] border border-rose-500/10 hover:border-rose-500/25 hover:bg-rose-500/[0.08] transition-all duration-200 group">
+            <div class="w-11 h-11 rounded-xl bg-rose-500/10 flex items-center justify-center shrink-0 group-hover:bg-rose-500/20 transition-colors">
+              <iconify-icon icon="lucide:phone" width="18" class="text-rose-400"></iconify-icon>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">Telepon</div>
+              <div class="text-sm font-medium text-rose-400 font-mono mt-0.5">087821303377</div>
+            </div>
+          </a>
+
+          <a href="https://wa.me/6287821303377" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/10 hover:border-emerald-500/25 hover:bg-emerald-500/[0.08] transition-all duration-200 group">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/20 transition-colors">
+              <iconify-icon icon="lucide:message-circle" width="18" class="text-emerald-400"></iconify-icon>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 font-mono">WhatsApp</div>
+              <div class="text-sm font-medium text-emerald-400 font-mono mt-0.5">087821303377</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ===== FOOTER NOTE ===== -->
+      <div class="text-center pt-4 pb-8 fade-up fd5">
+        <p class="text-xs text-slate-600 font-mono">
+          &copy; 2026 Team Core &bull; Member <span class="text-rose-500">#06</span> &bull; Built with <span class="text-rose-500">&lt;/&gt;</span> and ☕
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===== PARTICLES ===== -->
+  <script>
+    var c = document.getElementById('particleCanvas');
+    var x = c.getContext('2d');
+    var ps = [];
+
+    function rs() { c.width = innerWidth; c.height = innerHeight; }
+
+    function P() {
+      this.r = function() {
+        this.x = Math.random() * c.width;
+        this.y = Math.random() * c.height;
+        this.s = Math.random() * 1.5 + 0.5;
+        this.sx = (Math.random() - 0.5) * 0.3;
+        this.sy = (Math.random() - 0.5) * 0.3;
+        this.o = Math.random() * 0.4 + 0.1;
+        this.c = Math.random() > 0.5 ? '244,63,94' : '139,92,246';
+      };
+      this.u = function() {
+        this.x += this.sx;
+        this.y += this.sy;
+        if (this.x < 0 || this.x > c.width) this.sx *= -1;
+        if (this.y < 0 || this.y > c.height) this.sy *= -1;
+      };
+      this.d = function() {
+        x.beginPath();
+        x.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+        x.fillStyle = 'rgba(' + this.c + ',' + this.o + ')';
+        x.fill();
+      };
+    }
+
+    function ip() {
+      ps = [];
+      var n = Math.min(60, Math.floor(c.width * c.height / 20000));
+      for (var i = 0; i < n; i++) { var p = new P(); p.r(); ps.push(p); }
+    }
+
+    function ap() {
+      x.clearRect(0, 0, c.width, c.height);
+      for (var i = 0; i < ps.length; i++) { ps[i].u(); ps[i].d(); }
+      for (var i = 0; i < ps.length; i++) {
+        for (var j = i + 1; j < ps.length; j++) {
+          var dx = ps[i].x - ps[j].x, dy = ps[i].y - ps[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            x.beginPath();
+            x.moveTo(ps[i].x, ps[i].y);
+            x.lineTo(ps[j].x, ps[j].y);
+            x.strokeStyle = 'rgba(244,63,94,' + (0.05 * (1 - dist / 120)) + ')';
+            x.lineWidth = 0.5;
+            x.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(ap);
+    }
+
+    rs(); ip(); ap();
+    addEventListener('resize', function() { rs(); ip(); });
+  </script>
+
+</body>
+</html>
