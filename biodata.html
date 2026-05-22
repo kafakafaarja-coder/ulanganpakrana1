@@ -1,1 +1,1144 @@
 
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Core — Full Stack Developers 2026</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    .glass-card {
+      background: rgba(15,23,42,0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(148,163,184,0.08);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(56,189,248,0.25);
+      box-shadow:
+        0 0 30px -5px rgba(56,189,248,0.1),
+        0 0 60px -10px rgba(139,92,246,0.08),
+        0 25px 50px -12px rgba(0,0,0,0.4);
+    }
+
+    .hero-fade {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroIn 1s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .hero-fade-d1 { animation-delay: 0.1s; }
+    .hero-fade-d2 { animation-delay: 0.3s; }
+    .hero-fade-d3 { animation-delay: 0.5s; }
+    .hero-fade-d4 { animation-delay: 0.7s; }
+    @keyframes heroIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .avatar-ring {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6, #06b6d4);
+      padding: 3px;
+      border-radius: 9999px;
+    }
+
+    .pulse-dot {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    .orbit-ring {
+      border: 1px solid rgba(56,189,248,0.06);
+      border-radius: 50%;
+      position: absolute;
+      animation: orbit-spin 30s linear infinite;
+    }
+    .orbit-ring::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #38bdf8;
+      border-radius: 50%;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(56,189,248,0.6);
+    }
+    @keyframes orbit-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .nav-glass {
+      background: rgba(3,7,18,0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(148,163,184,0.06);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== CAROUSEL ========== */
+    .carousel-viewport {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      flex-shrink: 0;
+      padding: 0 1rem;
+    }
+
+    .slide-card {
+      background: rgba(15,23,42,0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(148,163,184,0.08);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .slide-card:hover {
+      border-color: rgba(56,189,248,0.2);
+      box-shadow: 0 0 40px -5px rgba(56,189,248,0.1), 0 25px 50px -12px rgba(0,0,0,0.4);
+    }
+
+    .slide-top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #0ea5e9, #8b5cf6, #06b6d4);
+      opacity: 0.7;
+    }
+
+    .bio-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid rgba(148,163,184,0.06);
+    }
+    .bio-row:last-child {
+      border-bottom: none;
+    }
+    .bio-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+      min-width: 90px;
+      padding-top: 2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .bio-value {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .dot-btn {
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: rgba(148,163,184,0.2);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+    .dot-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      width: 32px;
+      box-shadow: 0 0 12px rgba(56,189,248,0.4);
+    }
+    .dot-btn:hover:not(.active) {
+      background: rgba(56,189,248,0.3);
+    }
+
+    .nav-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(15,23,42,0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148,163,184,0.1);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-arrow:hover {
+      background: rgba(56,189,248,0.15);
+      border-color: rgba(56,189,248,0.3);
+      color: #38bdf8;
+    }
+    .nav-arrow:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .member-number {
+      position: absolute;
+      top: -20px;
+      right: -12px;
+      font-size: 8rem;
+      font-weight: 800;
+      color: rgba(56,189,248,0.04);
+      line-height: 1;
+      pointer-events: none;
+      font-family: 'JetBrains Mono', monospace;
+      user-select: none;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(56,189,248,0.08);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,0.12);
+    }
+
+    /* Thumbnail grid */
+    .thumb-item {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(15,23,42,0.4);
+      padding: 0.5rem;
+    }
+    .thumb-item.active {
+      border-color: rgba(56,189,248,0.5);
+      background: rgba(56,189,248,0.08);
+      box-shadow: 0 0 20px -5px rgba(56,189,248,0.2);
+    }
+    .thumb-item:hover:not(.active) {
+      border-color: rgba(148,163,184,0.15);
+      background: rgba(15,23,42,0.6);
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(-60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-slide-in-left {
+      animation: slideInLeft 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .animate-slide-in-right {
+      animation: slideInRight 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-950 text-slate-50 font-sans antialiased overflow-x-hidden">
+
+  <canvas id="particleCanvas"></canvas>
+  <div class="fixed inset-0 grid-bg z-0 pointer-events-none"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-glass transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center">
+          <iconify-icon icon="lucide:terminal" width="16" class="text-white"></iconify-icon>
+        </div>
+        <span class="font-semibold text-sm tracking-wide text-slate-200 group-hover:text-white transition-colors">TEAM<span class="text-sky-400">.CORE</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#hero" class="text-sm text-slate-400 hover:text-sky-400 transition-colors duration-200">Beranda</a>
+        <a href="#anggota" class="text-sm text-slate-400 hover:text-sky-400 transition-colors duration-200">Anggota</a>
+        <a href="#footer" class="text-sm text-slate-400 hover:text-sky-400 transition-colors duration-200">Kontak</a>
+      </div>
+      <button id="mobileMenuBtn" class="md:hidden text-slate-400 hover:text-sky-400 transition-colors">
+        <iconify-icon icon="lucide:menu" width="24"></iconify-icon>
+      </button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/5">
+      <div class="px-6 py-4 flex flex-col gap-3 bg-gray-950/95">
+        <a href="#hero" class="text-sm text-slate-400 hover:text-sky-400 py-2 transition-colors">Beranda</a>
+        <a href="#anggota" class="text-sm text-slate-400 hover:text-sky-400 py-2 transition-colors">Anggota</a>
+        <a href="#footer" class="text-sm text-slate-400 hover:text-sky-400 py-2 transition-colors">Kontak</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="orbit-ring w-[400px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60"></div>
+    <div class="orbit-ring w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" style="animation-duration:45s;animation-direction:reverse;"></div>
+    <div class="orbit-ring w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20" style="animation-duration:60s;"></div>
+
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+      <div class="hero-fade hero-fade-d1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-sky-500/20 bg-sky-500/5 mb-8">
+        <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+        <span class="text-xs font-semibold tracking-widest uppercase text-sky-400 font-mono">Pengembang Core</span>
+      </div>
+
+      <h1 class="hero-fade hero-fade-d2 text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6">
+        <span class="text-slate-100">Meet The</span><br>
+        <span class="gradient-text">Full Stack Team</span>
+      </h1>
+
+      <p class="hero-fade hero-fade-d3 text-base md:text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
+        Kolektif developer yang membangun solusi digital dari front-end hingga back-end.
+        Setiap anggota adalah komponen vital dalam arsitektur tim kami.
+      </p>
+
+      <div class="hero-fade hero-fade-d4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#anggota" class="group inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-sky-500/25 transition-all duration-300 hover:scale-105">
+          <span>Lihat Tim</span>
+          <iconify-icon icon="lucide:arrow-down" width="16" class="group-hover:translate-y-0.5 transition-transform"></iconify-icon>
+        </a>
+        <span class="text-xs text-slate-500 font-mono">// 6 engineers &bull; est. 2026</span>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 hero-fade hero-fade-d4">
+      <span class="text-[10px] uppercase tracking-widest text-slate-600 font-mono">scroll</span>
+      <div class="w-5 h-8 rounded-full border border-slate-700 flex justify-center pt-1.5">
+        <div class="w-1 h-2 rounded-full bg-sky-400 animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANGGOTA — CAROUSEL ===================== -->
+  <section id="anggota" class="relative z-10 py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-4 md:px-6">
+
+      <div class="text-center mb-12">
+        <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-400 font-mono">Team Roster</span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 text-slate-100">Core Engineers</h2>
+        <p class="text-slate-500 mt-3 max-w-lg mx-auto text-sm">Pilih anggota untuk melihat biodata lengkap. Geser atau gunakan navigasi untuk berpindah profil.</p>
+        <div class="mt-6 mx-auto w-24 h-[2px] bg-gradient-to-r from-sky-500 via-violet-500 to-cyan-400 rounded-full opacity-50"></div>
+      </div>
+
+      <!-- THUMBNAIL SELECTOR -->
+      <div id="thumbBar" class="flex justify-center gap-2 md:gap-3 mb-10 flex-wrap">
+        <!-- Generated by JS -->
+      </div>
+
+      <!-- CAROUSEL -->
+      <div class="relative">
+        <div class="carousel-viewport rounded-2xl">
+          <div id="carouselTrack" class="carousel-track">
+
+            <!-- ===== SLIDE 1 — BAYU SETIAWAN ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+
+                  <!-- LEFT: Avatar & Identity -->
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-sky-500/[0.03] to-violet-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">01</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-bayu/300/300.jpg" alt="Bayu Setiawan" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=B+S&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">BAYU SETIAWAN</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <iconify-icon icon="lucide:crown" width="12"></iconify-icon>
+                        Koordinator
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+
+                  <!-- RIGHT: Biodata -->
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">01</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Bayu Setiawan</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Koordinator Tim</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Gedung Batu Tengah 1</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+6281336801237" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            081336801237
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">Leadership</span>
+                      <span class="skill-tag">Full-Stack</span>
+                      <span class="skill-tag">Project-Mgr</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== SLIDE 2 — AHMAD ROZAQUL AKBAR ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-sky-500/[0.03] to-violet-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">02</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-ahmad/300/300.jpg" alt="Ahmad Rozaqul Akbar" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=A+R&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">AHMAD ROZAQUL AKBAR</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        <iconify-icon icon="lucide:code-2" width="12"></iconify-icon>
+                        Developer
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">02</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Ahmad Rozaqul Akbar</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Developer</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Peterongan Timur</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+6287770899572" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            087770899572
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">Front-End</span>
+                      <span class="skill-tag">React</span>
+                      <span class="skill-tag">UI/UX</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== SLIDE 3 — MUHAMMAD ZAKARIYYA SAPUTRA ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-violet-500/[0.03] to-sky-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">03</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-zakariyya/300/300.jpg" alt="Muhammad Zakariyya Saputra" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=M+Z&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">MUHAMMAD ZAKARIYYA SAPUTRA</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-violet-500/10 text-violet-400 border border-violet-500/20">
+                        <iconify-icon icon="lucide:code-2" width="12"></iconify-icon>
+                        Developer
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">03</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Muhammad Zakariyya Saputra</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Developer</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Gasem Wulung No.1 RT03 RW04</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+62895410012145" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            0895410012145
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">Back-End</span>
+                      <span class="skill-tag">Node.js</span>
+                      <span class="skill-tag">Database</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== SLIDE 4 — MUHAMMAD PRATZIDA KRISNA MUKTI ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-cyan-500/[0.03] to-sky-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">04</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-pratzida/300/300.jpg" alt="Muhammad Pratzida Krisna Mukti" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=M+P&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">MUHAMMAD PRATZIDA KRISNA MUKTI</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                        <iconify-icon icon="lucide:code-2" width="12"></iconify-icon>
+                        Developer
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">04</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Muhammad Pratzida Krisna Mukti</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Developer</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Wonodri Grajen No. 29</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+6285848432221" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            085848432221
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">API-Design</span>
+                      <span class="skill-tag">TypeScript</span>
+                      <span class="skill-tag">DevOps</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== SLIDE 5 — MAULIDO TAUFIQ ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-emerald-500/[0.03] to-sky-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">05</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-maulido/300/300.jpg" alt="Maulido Taufiq" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=M+T&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">MAULIDO TAUFIQ</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <iconify-icon icon="lucide:code-2" width="12"></iconify-icon>
+                        Developer
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">05</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Maulido Taufiq</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Developer</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Tampomas Selatan 1 Nomor 27</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+62882007006431" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            0882007006431
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">Mobile</span>
+                      <span class="skill-tag">Flutter</span>
+                      <span class="skill-tag">Firebase</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== SLIDE 6 — CHICO ENDAR ADIKARA ===== -->
+            <div class="carousel-slide">
+              <div class="slide-card relative">
+                <div class="slide-top-bar"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row">
+                  <div class="lg:w-2/5 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b lg:border-b-0 lg:border-r border-white/5 bg-gradient-to-br from-rose-500/[0.03] to-violet-500/[0.03] relative overflow-hidden">
+                    <div class="member-number">06</div>
+                    <div class="avatar-ring mb-5">
+                      <div class="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden bg-gray-900">
+                        <img src="https://picsum.photos/seed/dev-chico/300/300.jpg" alt="Chico Endar Adikara" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=C+E&background=0f172a&color=38bdf8&size=300&bold=true&font-size=0.4'">
+                      </div>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-100 tracking-tight">CHICO ENDAR ADIKARA</h3>
+                    <div class="mt-2">
+                      <span class="role-badge bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                        <iconify-icon icon="lucide:code-2" width="12"></iconify-icon>
+                        Developer
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-5">
+                      <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                      <span class="text-[11px] text-slate-500 font-mono">online</span>
+                    </div>
+                  </div>
+                  <div class="lg:w-3/5 p-8 md:p-10">
+                    <div class="flex items-center gap-2 mb-6">
+                      <iconify-icon icon="lucide:id-card" width="16" class="text-sky-400"></iconify-icon>
+                      <span class="text-xs font-bold uppercase tracking-widest text-sky-400 font-mono">Biodata</span>
+                    </div>
+                    <div class="space-y-0">
+                      <div class="bio-row">
+                        <span class="bio-label">No. Urut</span>
+                        <span class="bio-value font-mono text-sky-400">06</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Nama</span>
+                        <span class="bio-value font-semibold text-slate-100">Chico Endar Adikara</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Jabatan</span>
+                        <span class="bio-value">Developer</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Alamat</span>
+                        <span class="bio-value">Jl. Permata Safira</span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Telepon</span>
+                        <span class="bio-value">
+                          <a href="tel:+6287821303377" class="text-sky-400 hover:text-sky-300 transition-colors font-mono inline-flex items-center gap-1.5 group">
+                            087821303377
+                            <iconify-icon icon="lucide:arrow-up-right" width="12" class="opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                          </a>
+                        </span>
+                      </div>
+                      <div class="bio-row">
+                        <span class="bio-label">Status</span>
+                        <span class="bio-value inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+                          Aktif
+                        </span>
+                      </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                      <span class="skill-tag">Full-Stack</span>
+                      <span class="skill-tag">Vue.js</span>
+                      <span class="skill-tag">Python</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ARROWS -->
+        <button id="prevBtn" class="nav-arrow absolute top-1/2 -translate-y-1/2 -left-5 md:-left-7 z-20" disabled>
+          <iconify-icon icon="lucide:chevron-left" width="20"></iconify-icon>
+        </button>
+        <button id="nextBtn" class="nav-arrow absolute top-1/2 -translate-y-1/2 -right-5 md:-right-7 z-20">
+          <iconify-icon icon="lucide:chevron-right" width="20"></iconify-icon>
+        </button>
+
+      </div>
+
+      <!-- DOTS -->
+      <div id="dotsContainer" class="flex items-center justify-center gap-2 mt-8">
+        <!-- Generated by JS -->
+      </div>
+
+      <!-- COUNTER -->
+      <div class="text-center mt-4">
+        <span id="slideCounter" class="text-xs text-slate-600 font-mono">01 / 06</span>
+      </div>
+
+      <!-- Summary Bar -->
+      <div class="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
+        <div class="flex items-center gap-2 text-slate-500 text-sm">
+          <iconify-icon icon="lucide:users" width="16" class="text-sky-500/60"></iconify-icon>
+          <span><strong class="text-slate-300">6</strong> Engineers</span>
+        </div>
+        <div class="hidden sm:block w-1 h-1 rounded-full bg-slate-700"></div>
+        <div class="flex items-center gap-2 text-slate-500 text-sm">
+          <iconify-icon icon="lucide:calendar" width="16" class="text-sky-500/60"></iconify-icon>
+          <span>Est. <strong class="text-slate-300">2026</strong></span>
+        </div>
+        <div class="hidden sm:block w-1 h-1 rounded-full bg-slate-700"></div>
+        <div class="flex items-center gap-2 text-slate-500 text-sm">
+          <span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span>
+          <span>All members <strong class="text-green-400">online</strong></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="relative z-10 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center">
+            <iconify-icon icon="lucide:terminal" width="14" class="text-white"></iconify-icon>
+          </div>
+          <span class="font-semibold text-sm tracking-wide text-slate-400">TEAM<span class="text-sky-500">.CORE</span></span>
+        </div>
+        <p class="text-xs text-slate-600 font-mono">&copy; 2026 Team Core. Built with <span class="text-sky-500">&lt;/&gt;</span> and ☕</p>
+        <div class="flex items-center gap-3">
+          <a href="tel:+6281336801237" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/5 hover:border-sky-500/30 flex items-center justify-center transition-all duration-200">
+            <iconify-icon icon="lucide:phone" width="14" class="text-slate-400"></iconify-icon>
+          </a>
+          <a href="mailto:team@core.dev" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/5 hover:border-sky-500/30 flex items-center justify-center transition-all duration-200">
+            <iconify-icon icon="lucide:mail" width="14" class="text-slate-400"></iconify-icon>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/5 hover:border-sky-500/30 flex items-center justify-center transition-all duration-200">
+            <iconify-icon icon="lucide:github" width="14" class="text-slate-400"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ==================== MEMBER DATA ====================
+    var members = [
+      { id: '01', name: 'Bayu Setiawan', short: 'BAYU S.', initials: 'B+S', color: 'amber' },
+      { id: '02', name: 'Ahmad Rozaqul Akbar', short: 'AHMAD R.', initials: 'A+R', color: 'sky' },
+      { id: '03', name: 'Muhammad Zakariyya S.', short: 'ZAKARIYYA', initials: 'M+Z', color: 'violet' },
+      { id: '04', name: 'Muhammad Pratzida K.M.', short: 'PRATZIDA', initials: 'M+P', color: 'cyan' },
+      { id: '05', name: 'Maulido Taufiq', short: 'MAULIDO T.', initials: 'M+T', color: 'emerald' },
+      { id: '06', name: 'Chico Endar Adikara', short: 'CHICO E.', initials: 'C+E', color: 'rose' },
+    ];
+    var totalSlides = members.length;
+
+    // ==================== THUMBNAIL BAR ====================
+    var thumbBar = document.getElementById('thumbBar');
+    members.forEach(function(m, i) {
+      var div = document.createElement('div');
+      div.className = 'thumb-item flex items-center gap-2' + (i === 0 ? ' active' : '');
+      div.setAttribute('data-index', i);
+      div.innerHTML =
+        '<div class="w-8 h-8 rounded-full overflow-hidden bg-gray-800 shrink-0">' +
+          '<img src="https://picsum.photos/seed/dev-' + m.short.toLowerCase().replace(/[\s.]+/g,'') + '/80/80.jpg" class="w-full h-full object-cover" onerror="this.src=\'https://ui-avatars.com/api/?name=' + m.initials + '&background=0f172a&color=38bdf8&size=80&bold=true&font-size=0.4\'">' +
+        '</div>' +
+        '<span class="text-[11px] font-semibold text-slate-300 tracking-wide hidden sm:inline">' + m.id + '</span>';
+      div.addEventListener('click', function() { goToSlide(i); });
+      thumbBar.appendChild(div);
+    });
+
+    // ==================== DOTS ====================
+    var dotsContainer = document.getElementById('dotsContainer');
+    for (var i = 0; i < totalSlides; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'dot-btn' + (i === 0 ? ' active' : '');
+      btn.setAttribute('data-index', i);
+      btn.addEventListener('click', function() { goToSlide(parseInt(this.getAttribute('data-index'))); });
+      dotsContainer.appendChild(btn);
+    }
+
+    // ==================== CAROUSEL LOGIC ====================
+    var track = document.getElementById('carouselTrack');
+    var prevBtn = document.getElementById('prevBtn');
+    var nextBtn = document.getElementById('nextBtn');
+    var slideCounter = document.getElementById('slideCounter');
+    var currentSlide = 0;
+    var isAnimating = false;
+
+    function updateCarousel() {
+      track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+
+      // Buttons
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+
+      // Counter
+      var cur = (currentSlide + 1).toString().padStart(2, '0');
+      var tot = totalSlides.toString().padStart(2, '0');
+      slideCounter.textContent = cur + ' / ' + tot;
+
+      // Dots
+      document.querySelectorAll('.dot-btn').forEach(function(d, i) {
+        d.classList.toggle('active', i === currentSlide);
+      });
+
+      // Thumbs
+      document.querySelectorAll('.thumb-item').forEach(function(t, i) {
+        t.classList.toggle('active', i === currentSlide);
+      });
+    }
+
+    function goToSlide(index) {
+      if (isAnimating || index === currentSlide) return;
+      isAnimating = true;
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      updateCarousel();
+      setTimeout(function() { isAnimating = false; }, 600);
+    }
+
+    prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); });
+    nextBtn.addEventListener('click', function() { goToSlide(currentSlide + 1); });
+
+    // Keyboard
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+      if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+    });
+
+    // Touch / Swipe
+    var touchStartX = 0;
+    var touchEndX = 0;
+    var viewport = document.querySelector('.carousel-viewport');
+
+    viewport.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      var diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) goToSlide(currentSlide + 1);
+        else goToSlide(currentSlide - 1);
+      }
+    }, { passive: true });
+
+    // Auto-slide
+    var autoSlideInterval = null;
+    function startAutoSlide() {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(function() {
+        if (currentSlide < totalSlides - 1) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(0);
+        }
+      }, 6000);
+    }
+    function stopAutoSlide() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    // Pause on hover / interaction
+    viewport.addEventListener('mouseenter', stopAutoSlide);
+    viewport.addEventListener('mouseleave', startAutoSlide);
+    viewport.addEventListener('touchstart', stopAutoSlide, { passive: true });
+
+    startAutoSlide();
+    updateCarousel();
+
+    // ==================== PARTICLE BACKGROUND ====================
+    var canvas = document.getElementById('particleCanvas');
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function Particle() {
+      this.reset = function() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.4 + 0.1;
+        this.color = Math.random() > 0.5 ? '56,189,248' : '139,92,246';
+      };
+      this.update = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      };
+      this.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + this.color + ',' + this.opacity + ')';
+        ctx.fill();
+      };
+    }
+
+    function initParticles() {
+      particles = [];
+      var count = Math.min(80, Math.floor(canvas.width * canvas.height / 15000));
+      for (var i = 0; i < count; i++) {
+        var p = new Particle();
+        p.reset();
+        particles.push(p);
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = 'rgba(56,189,248,' + (0.06 * (1 - dist / 120)) + ')';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    resizeCanvas();
+    initParticles();
+    animateParticles();
+    window.addEventListener('resize', function() {
+      resizeCanvas();
+      initParticles();
+    });
+
+    // ==================== MOBILE MENU ====================
+    var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    var mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // ==================== NAVBAR SCROLL EFFECT ====================
+    var navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
